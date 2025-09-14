@@ -4,7 +4,10 @@
 
 ## Installation
 
-You can install it from the store.
+Build from source using `npm`.
+
+> [!NOTE]
+> Dependencies are `pass` and `fd`.
 
 ## Usage
 
