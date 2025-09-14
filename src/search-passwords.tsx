@@ -40,30 +40,30 @@ const getPasswordEntries = (): Array<IPasswordEntry> => {
 // get a specific field from a password entry
 const extractField = (field: string, entry: IPasswordEntry): string | null => {
   let extractCommand = "";
+  switch (field) {
+    case "password":
+      extractCommand = `pass show "${entry.path}" | head -n1`;
+      break;
+
+    case "otp":
+      extractCommand = `pass otp "${entry.path}"`;
+      break;
+
+    case "username":
+      field = "login";
+
+    default:
+      extractCommand = `pass show "${entry.path}" | /usr/bin/grep -i "^${field}:" | /usr/bin/cut -d: -f2- | /usr/bin/sed 's/^ *//'`;
+      break;
+  }
+
   try {
-    switch (field) {
-      case "password":
-        extractCommand = `pass show "${entry.path}" | head -n1`;
-        break;
-
-      case "otp":
-        extractCommand = `pass otp "${entry.path}"`;
-        break;
-
-      case "username":
-        field = "login";
-
-      default:
-        extractCommand = `pass show "${entry.path}" | grep -i "^${field}:" | cut -d: -f2- | sed 's/^ *//'`;
-        break;
-    }
-
     return execSync(extractCommand, {
       encoding: "utf8",
       stdio: ["pipe", "pipe", "ignore"],
       env: ENV,
     }).trim();
-  } catch {
+  } catch (e) {
     return null;
   }
 };
