@@ -106,9 +106,7 @@ export default function Command() {
         <List.Item
           key={entry.id}
           icon={Icon.Key}
-          title={entry.name}
-          subtitle={entry.path}
-          accessories={[{ icon: Icon.Folder, text: entry.path.split("/").slice(0, -1).join("/") || "root" }]}
+          title={entry.path}
           actions={
             <ActionPanel>
               <Action title="Copy Password" onAction={() => handleExtract("password", entry)} icon={Icon.Key} />
